@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Happy Birthday, Bestie!</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #ff99cc, #ccffff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #birthdayPopup {
+            position: relative;
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            transform: scale(0);
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        #birthdayPopup.active {
+            transform: scale(1);
+        }
+
+        #cake {
+            width: 200px;
+            height: 250px;
+            background: linear-gradient(to bottom, #f0e68c, #d2b48c);
+            border-radius: 10px;
+            position: relative;
+            margin: 20px auto;
+        }
+
+        #candle1, #candle2 {
+            position: absolute;
+            width: 10px;
+            height: 40px;
+            background-color: red;
+            top: -20px;
+            border-radius: 5px 5px 0 0;
+            animation: flicker 1s infinite;
+        }
+
+        #candle1 {
+            left: 40px;
+        }
+
+        #candle2 {
+            right: 40px;
+        }
+
+        @keyframes flicker {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        #flame1, #flame2 {
+            position: absolute;
+            width: 10px;
+            height: 20px;
+            background-color: orange;
+            top: -30px;
+            border-radius: 50%;
+            animation: flame 0.5s infinite;
+        }
+
+        #flame1 {
+            left: 40px;
+        }
+
+        #flame2 {
+            right: 40px;
+        }
+
+        @keyframes flame {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        #message {
+            font-size: 24px;
+            color: #333;
+            white-space: nowrap;
+            position: absolute;
+            left: -500px;
+            top: 300px;
+            transition: left 2s ease-out;
+        }
+
+        #message.active {
+            left: 50px;
+        }
+
+        .firecracker {
+            position: absolute;
+            width: 10px;
+            height: 20px;
+            background-color: yellow;
+            border-radius: 5px;
+            animation: firecracker 1s infinite;
+        }
+
+        @keyframes firecracker {
+            0%, 100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: pink;
+            -webkit-mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>');
+            mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>');
+            -webkit-mask-size: cover;
+            mask-size: cover;
+            animation: hearts 2s infinite;
+        }
+
+        @keyframes hearts {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateY(-50px) scale(1.2);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="birthdayPopup">
+        <audio id="birthdaySong" loop muted>
+            <source src="YOUR_SONG_URL_HERE.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <div id="cake">
+            <div id="candle1">
+                <div id="flame1"></div>
+            </div>
+            <div id="candle2">
+                <div id="flame2"></div>
+            </div>
+        </div>
+        <div id="message">Happy Birthday, Dear Bestie!</div>
+    </div>
+
+    <script>
+        const birthdayPopup = document.getElementById('birthdayPopup');
+        const message = document.getElementById('message');
+        const cake = document.getElementById('cake');
+        const song = document.getElementById('birthdaySong');
+
+        setTimeout(() => {
+            birthdayPopup.classList.add('active');
+            song.muted = false;
+            song.play();
+
+            setTimeout(() => {
+                message.classList.add('active');
+                createFirecrackers();
+                createHearts();
+            }, 2000);
+        }, 1000);
+
+        function createFirecrackers() {
+            for (let i = 0; i < 10; i++) {
+                const firecracker = document.createElement('div');
+                firecracker.classList.add('firecracker');
+                firecracker.style.left = Math.random() * 180 + 'px';
+                firecracker.style.top = '-20px';
+                cake.appendChild(firecracker);
+            }
+        }
+
+        function createHearts() {
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.style.left = Math.random() * window.innerWidth + 'px';
+                heart.style.top = Math.random() * window.innerHeight + 'px';
+                document.body.appendChild(heart);
+            }
+        }
+    </script>
+</body>
+</html>
